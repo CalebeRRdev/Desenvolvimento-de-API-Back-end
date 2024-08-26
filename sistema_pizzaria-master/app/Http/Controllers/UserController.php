@@ -80,7 +80,22 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Encontra o usuário pelo ID
+        $user = User::find($id);
+
+        // Verifica se o usuário existe
+        if (!$user) {
+            return response()->json(['status' => 404, 'mensagem' => 'Usuário não encontrado'], 404);
+    }
+
+    // Atualiza os campos necessários
+    $user->name = $request->input('name', $user->name);
+    $user->email = $request->input('email', $user->email);
+
+    // Salva as alterações
+    $user->save();
+
+    return response()->json(['status' => 200, 'mensagem' => 'Usuário atualizado com sucesso', 'user' => $user], 200);
     }
 
     /**
@@ -88,6 +103,18 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+    // Encontra o usuário pelo ID
+    $user = User::find($id);
+
+    // Verifica se o usuário existe
+        if (!$user) {
+         return response()->json(['status' => 404, 'mensagem' => 'Usuário não encontrado'], 404);
     }
+
+    // Deleta o usuário
+    $user->delete();
+
+    return response()->json(['status' => 200, 'mensagem' => 'Usuário deletado com sucesso'], 200);
+    }
+
 }
