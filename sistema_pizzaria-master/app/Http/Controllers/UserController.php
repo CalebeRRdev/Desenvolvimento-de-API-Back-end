@@ -76,6 +76,16 @@ class UserController extends Controller
     }
 
     /**
+    * Modificação realizada por Calebe Rodrigues Rolim
+    * Data: 26/08/2024
+    * Hora: 13:15
+    *
+    * Descrição:
+    * - Implementação do método update para atualizar usuários no banco de dados.
+    * - Verificação da existência do usuário antes de atualizar.
+    */
+
+    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
@@ -97,6 +107,16 @@ class UserController extends Controller
 
     return response()->json(['status' => 200, 'mensagem' => 'Usuário atualizado com sucesso', 'user' => $user], 200);
     }
+
+    /**
+    * Modificação realizada por Calebe Rodrigues Rolim
+    * Data: 26/08/2024
+    * Hora: 13:15
+    *
+    * Descrição:
+    * - Implementação do método destroy para deletar usuários do banco de dados.
+    * - Verificação da existência do usuário antes de deletar.
+    */    
 
     /**
      * Remove the specified resource from storage.
