@@ -56,23 +56,33 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-    $data = $request->all();
-
-    // Cria o usuário com os dados fornecidos
-    $user = User::create([
-        'name' => $data['name'],
-        'email' => $data['email'],
-        'password' => bcrypt($data['password']),
+{
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users',
+        'password' => [
+            'required',
+            'confirmed',
+            'min:8', // Minimum length
+            'regex:/[a-z]/', // At least one lowercase letter
+            'regex:/[A-Z]/', // At least one uppercase letter
+            'regex:/[@$!%*?&]/', // At least one symbol
+        ],
+        'password_confirmation' => 'required',
     ]);
 
-    // Retorna a resposta JSON com os detalhes do usuário criado
+    $user = User::create([
+        'name' => $validatedData['name'],
+        'email' => $validatedData['email'],
+        'password' => bcrypt($validatedData['password']),
+    ]);
+
     return response()->json([
         'status' => 200,
         'mensagem' => 'Usuário cadastrado com sucesso!',
         'user' => $user
     ]);
-    }
+}
 
     /**
      * Display the specified resource.
