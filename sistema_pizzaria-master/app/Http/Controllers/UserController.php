@@ -39,24 +39,39 @@ class UserController extends Controller
 
     }
 
+
+    /**
+    * Modificação realizada por Calebe Rodrigues Rolim
+    * Data: 27/08/2024
+    * Hora: 10:21
+    *
+    * Descrição:
+    * - Alteração do método store para utilizar o Request padrão em vez do UserCreateRequest.
+    * - Adicionada a função response()->json() para retornar uma resposta JSON padronizada.
+    * - Correção de um erro de digitação na chave 'mensagem' da resposta.
+    * - Mantida a criação do usuário com os dados fornecidos.
+    */
+
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserCreateRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->all();
+    $data = $request->all();
 
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+    // Cria o usuário com os dados fornecidos
+    $user = User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => bcrypt($data['password']),
+    ]);
 
-        return [
-            'status' => 200,
-            'menssagem' => 'Usuário cadastrado com sucesso!!',
-            'user' => $user
-        ];
+    // Retorna a resposta JSON com os detalhes do usuário criado
+    return response()->json([
+        'status' => 200,
+        'mensagem' => 'Usuário cadastrado com sucesso!',
+        'user' => $user
+    ]);
     }
 
     /**
